@@ -107,14 +107,14 @@ $bot->on({
     sub {
         my ($response) = @_;
 
-        my %matcher = (
+        my $matcher = {
             php         => \&syntax,
             sh          => \&syntax,
             manedit     => \&man,
             manlist     => \&man,
             man         => \&man,
             mandel      => \&man
-        );
+        };
 
         # Check if $response matches
         # XXX: I should use a proper regex
@@ -126,7 +126,7 @@ $bot->on({
             (my $ref) = ($response->{text} =~ m|#(.+):.*|);
             (my $message) = ($response->{text} =~ m|#.+:(.*)|);
 
-            $answer = $matcher{$ref}($ref, $message) if defined $ref and defined $message and defined $matcher{$ref} ;
+            $answer = $matcher->{$ref}($ref, $message) if defined $ref and defined $message and defined $matcher->{$ref} ;
 
             $bot->say(
                 channel => $response->{channel},
