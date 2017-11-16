@@ -8,7 +8,8 @@ This script need:
 
 ### Using:
 
-The token should be set in $HOME/.SCRIPTNAME
+The token should be set in $HOME/.SCRIPTNAME.token
+The mandir should be set in $HOME/.SCRIPTNAME.mandir (do not forget final slash)
 
 To use the bot in slack run this as message:
 #sh: CODE
