@@ -1,5 +1,5 @@
 # syntaxchecker-slack-bot
-A fun syntaxchecker slack bot
+A fun slack bot for syntaxchecking and manpage
 
 ## Lib's
 This script need:
@@ -13,5 +13,9 @@ The mandir should be set in $HOME/.SCRIPTNAME.mandir (do not forget final slash)
 
 To use the bot in slack run this as message:
 #sh: CODE
+
 #php: CODE
+
+#man: help
+
 
