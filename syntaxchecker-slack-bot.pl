@@ -12,6 +12,7 @@ use String::Random;
 
 use File::Basename;
 use File::Slurp;
+use File::Glob;
 
 my ( $softname, $path, $suffix ) = fileparse( $0, qr{\.[^.]*$} );
 
@@ -21,7 +22,7 @@ chomp $token;
 my $bot = Slack::RTM::Bot->new( token => $token);
 
 sub syntax{
-    my ($ref, $message) = @_;
+    my ($ref, $message, $channel) = @_;
 
     my $string_gen = String::Random->new;
     my $shell = {
@@ -43,7 +44,7 @@ sub syntax{
 };
 
 sub man{
-    my ($ref, $message) = @_;
+    my ($ref, $message, $channel) = @_;
 
     my $dir = read_file("$ENV{'HOME'}/.$softname.mandir");
 
@@ -113,20 +114,19 @@ $bot->on({
             manedit     => \&man,
             manlist     => \&man,
             man         => \&man,
-            mandel      => \&man
+            mandel      => \&man,
         };
 
         # Check if $response matches
-        # XXX: I should use a proper regex
 
-        if (defined($response->{user}) and defined($response->{text}) and defined($response->{channel})) {
+        if (defined($response->{user}) and defined($response->{text}) and defined($response->{channel}) and not ($response->{channel} =~ m/D.*/)) {
 
             my $answer;
 
             (my $ref) = ($response->{text} =~ m|#(.+):.*|);
             (my $message) = ($response->{text} =~ m|#.+:(.*)|);
 
-            $answer = $matcher->{$ref}($ref, $message) if defined $ref and defined $message and defined $matcher->{$ref} ;
+            $answer = $matcher->{$ref}($ref, $message, $channel) if defined $ref and defined $message and defined $matcher->{$ref} ;
 
             $bot->say(
                 channel => $response->{channel},
