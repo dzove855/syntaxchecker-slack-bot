@@ -125,6 +125,7 @@ $bot->on({
 
             (my $ref) = ($response->{text} =~ m|#(.+):.*|);
             (my $message) = ($response->{text} =~ m|#.+:(.*)|);
+            my $channel = $response->{channel};
 
             $answer = $matcher->{$ref}($ref, $message, $channel) if defined $ref and defined $message and defined $matcher->{$ref} ;
 
